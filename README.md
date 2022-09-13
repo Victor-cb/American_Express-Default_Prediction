@@ -1,5 +1,59 @@
-Amex_prediction
-==============================
+# **Modelagem de crédito (Amex_prediction Kaggle)**
+=============================
+## Introdução
+
+O objetivo desse trabalho é identificar dentre todos os clientes quais irão pagar suas faturas e quais não irão pagar, comumente chamado de default.
+Algumas caractéristicas do dataset disponibilizado pela American Express:
+
+1. 5531451 entradas
+2. 191 features, que estão divididas em:
+   * D_* = Delinquency variables
+   * P_* = Payment variables
+   * S_* = Spend variables
+   * B_* = Balance variables
+   * R_* = Risk variables
+3. Dataset desbalanceado como esperado: 25% clientes default
+
+Não temos outras informações das features além das descritas acima.
+----
+
+## Análise Descritiva 
+
+[oi](blob:vscode-webview%3A//0dq5escjvmpd2d9qopf7suo3t5il4pq0hdsidp0luqjavvjtut3g/df33fe14-e195-4e5b-b630-5b1060b63fb1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Prediction of default for credit card issuer
 Project Organization
