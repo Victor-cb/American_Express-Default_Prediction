@@ -3,7 +3,7 @@
 ## Introdução
 
 O objetivo desse trabalho é identificar dentre todos os clientes quais irão pagar suas faturas e quais não irão pagar, comumente chamado de default.
-Algumas caractéristicas do dataset disponibilizado pela American Express:
+Algumas características do dataset disponibilizado pela American Express:
 
 1. 5531451 entradas
 2. 191 features, que estão divididas em:
@@ -41,17 +41,17 @@ Dessas, 67 features contém valores Nan variando como mostrado abaixo
 
 ![Valores Vazios](reports/figures/nan_distribution.png)
 
-Diversos valores com porcentamgem maior que 50%:
+Diversos valores com porcentagem maior que 50%:
 
 * 'D_88', 'D_110', 'B_39',  'D_73', 'B_42', 'D_134', 'B_29', 'D_132', 'D_76', 'D_42', 'D_142', 'D_53', 'D_50', 'B_17', 'D_105', 'D_56', 'S_9'
 
 
-#### Importante notar que, como não temos as explicações das váriaveis, é imprudente assumir que a deleção das mesmas seja a melhor saída. Faremos uma análise de WOE & IV mais para frente para determinar o peso de todas
+#### Importante notar que, como não temos as explicações das variáveis, é imprudente assumir que a deleção das mesmas seja a melhor saída. Faremos uma análise de WOE & IV mais para frente para determinar o peso de todas
 
-Outro ponto importante notado pelo usuário **[Raddar](https://www.kaggle.com/competitions/amex-default-prediction/discussion/328514)** no Kaggle, foi inserção de ruídos nos dados **float**. Esse ruído que varia entre 0-0.01 foi removido desse dataset no ínicio, o que ajuda a diminuir seu tamanho e otimizando as atividades computacionais.
+Outro ponto importante notado pelo usuário **[Raddar](https://www.kaggle.com/competitions/amex-default-prediction/discussion/328514)** no Kaggle, foi inserção de ruídos nos dados **float**. Esse ruído que varia entre 0-0.01 foi removido desse dataset no inicio, o que ajuda a diminuir seu tamanho e otimizando as atividades computacionais.
 
 #### Traduzindo a informação da limpeza:
-* Originalmente tinhamos 188 float/categoricas features. Essas foram transformadas para:
+* Originalmente tínhamos 188 float/categóricas features. Essas foram transformadas para:
     * 95 np.int8/np.int16 types
     * 93 np.float34 types
 
@@ -60,11 +60,48 @@ Outro ponto importante notado pelo usuário **[Raddar](https://www.kaggle.com/co
 
 
 
-### Analise de váriáveis
+### Analise de variáveis
+
+#### S_2 - Variável do tempo
+
+A distribuição do tempo não mostrou influência nos defaults. Provável que não tenha uma variável sazonal no fator "pagar a conta"
+
+![Time dist](reports/figures/time_distribution.png)
 
 
+#### Olhando as variáveis por sua tipagem descrita no inicio
+ * D_ = Delinquency variables
+![D_correlation](reports/figures/D_correlation.png)
+ 
+ *Foi observado alguns pares de Delinquency_variables altamente correlatas.* 
 
+-----------
 
+* S_ = Spend Variables
+![S_correlation](reports/figures/S_correlation.png)
+
+*Também observado pares de variáveis com alta correlação entre si.*
+
+-----------
+
+* P_ = Payment Variables
+![P_correlation](reports/figures/P_correlation.png)
+
+*Não foi observado nenhuma alta correlação*
+
+-----------
+
+* B_ = Balance Variables
+![B_correlation](reports/figures/B_correlation.png)
+
+*Diversas variáveis com alta correlação*
+
+-----------------
+
+*S_ = Risk Variables
+![R_correlation](reports/figures/R_correlation.png)
+
+*Também encontrados pares de variáveis com alta correlação*
 
 
 
