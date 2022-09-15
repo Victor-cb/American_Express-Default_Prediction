@@ -60,7 +60,7 @@ Outro ponto importante notado pelo usuário **[Raddar](https://www.kaggle.com/co
 
 
 
-
+### Analise de váriáveis
 
 
 
