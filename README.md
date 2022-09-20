@@ -106,35 +106,60 @@ A distribuição do tempo não mostrou influência nos defaults. Provável que n
 ## WOE e IV
 
 
+De forma a avaliar o peso de cada feature no nosso dataset e sua relevância, irei utilizar duas formas de análise:
+
+1. Weight Of Evidence(WOE) - Nos dá o poder preditivo de uma variável independente(uma feature qualquer do nosso dataset) com relação a variável dependente(nossa variável dummy-target). É dada pela fórmula
+$$
+WOE = ln(\frac {Distribution of Goods} { Distribution of Bads} )
+$$
+
+Resultado Positivo - Distribuição de bons > Ruins
+Resultado Negativo - Distribuição de bons < Ruins
+
+Por ser uma métrica oriunda da análise de risco em crédito, a notação de **Bom** & **Ruim**
+
+Pode ser escrita também como:
+
+$$
+WOE = ln(\frac { \% of non-events} { \% of events} )
+$$
+
+Onde não eventos = Bons & Eventos = Ruins
+
+A step by step calculation would be:
+
+    1. Split data into parts - How much depend on your distribution
+    2. Calcular o número de eventos e não eventos para cara grupo(bin)
+    3. Calcular a % de eventos e não eventos para cada grupo
+    4. Calcular o WOE baseado na fórmula acima
+
+O porque do uso do WOE:
+
+    * Nos ajuda a transformar um set de variáveis independentes e combinar features com um WOE similar e substituir seus valores pelos WOE.  
 
 
+2. Information Value(IV) - Ela nos da um indicador de valor preditivo para cada variável, seria como um *Feature Importance* na saída do modelo. Sua formulação se dá baseado no WOE:
 
+$$
+IV = \sum( \% OfNon Events - \% of Events) * WOE
+$$
 
+E segue algumas regras:
 
+    *  Information Value    |Variable Predictiveness
+        Less than 0.02      |Not useful for prediction
+        0.02 to 0.1         |Weak predictive Power
+        0.1 to 0.3          |Medium predictive Power
+        0.3 to 0.5          |Strong predictive Power
+        >0.5                |Suspicious Predictive Power
 
+Durante a analise, foram encontradas:
 
+41 features com valor < 0.02 inúteis
 
+101 features que estão entre fracas e fortes 0.02 < **feature** < 0.5
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+48 features suspeitosamente fortes > 0.5
 
 
 
