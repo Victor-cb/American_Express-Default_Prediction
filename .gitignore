@@ -90,3 +90,6 @@ target/
 
 # virtualenv
 /venv
+
+# Mlflow 
+/notebooks/mlruns
