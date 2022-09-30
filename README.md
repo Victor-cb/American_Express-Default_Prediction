@@ -70,6 +70,7 @@ A distribuição do tempo não mostrou influência nos defaults. Provável que n
 
 
 #### Olhando as variáveis por sua tipagem descrita no inicio
+
  * D_ = Delinquency variables
 ![D_correlation](reports/figures/D_correlation.png)
  
@@ -155,11 +156,41 @@ E segue algumas regras:
 
 Durante a analise, foram encontradas:
 
-41 features com valor < 0.02 inúteis
+* 41 features com valor < 0.02 inúteis
 
-101 features que estão entre fracas e fortes 0.02 < **feature** < 0.5
+* 101 features que estão entre fracas e fortes 0.02 < **feature** < 0.5
 
-48 features suspeitosamente fortes > 0.5
+* 48 features suspeitosamente fortes > 0.5
+
+Com isso decidi fazer os seguintes experimentos:
+
+1. Criar um dataset totalmente balanceado com os WoE Values
+2. Um dataset seguindo as regras de IV - Retirando todas as features fracas/fortes que podem não ser relevantes para o modelo
+3. Um dataset com os valores de WoE porém com as features selecionadas pelos valores IV
+--------------------------------------------------------
+------------------------
+
+## Modelo, parâmetros e resultados
+
+### Modelo e parâmetros
+
+#### Baseline
+1. Como baseline, utilizei um XGBoost sem nenhum parâmetro e sem nenhuma modificação no DataSet
+    * Resultado geral conforme métricas estabelecidas - **0.7456**
+    
+#### Experimentação
+Como modelo principal irei utilizar o XGBoost. 
+Realizei alguns experimentos com outros, Logistic Regression, Random Forest:
+
+* Logistic regression -> Resultados muito inferiores ao baseline **0.527**
+* Random Forest -> Resultado **0.38**
+
+#### Resultados XGBoost:
+1. Baseline - **0.7456**
+2. Dataset IV Balanced - **0.7055489888594441**
+3. Dataset WoE Balanced - **0.73**
+
+
 
 
 

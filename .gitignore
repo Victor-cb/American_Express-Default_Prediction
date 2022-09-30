@@ -93,3 +93,7 @@ target/
 
 # Mlflow 
 /notebooks/mlruns
+
+*.xgb
+*.lgb
+*.pkl
