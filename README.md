@@ -2,7 +2,9 @@
 =============================
 ## Introdução
 
-O objetivo desse trabalho é identificar dentre todos os clientes quais irão pagar suas faturas e quais não irão pagar, comumente chamado de default.
+O objetivo desse projeto é aplicar conhecimentos de análise de crédito a fim de prever clientes defaults em uma base da American Express.
+A iniciativa de realizar esse projeto veio após leitura de um livro sobre Credit Risk management, e me interessei em colocar em prática alguns dos conceitos visto no livro
+
 Algumas características do dataset disponibilizado pela American Express:
 
 1. 5531451 entradas
@@ -188,7 +190,8 @@ Realizei alguns experimentos com outros, Logistic Regression, Random Forest:
 #### Resultados XGBoost:
 1. Baseline - **0.7456**
 2. Dataset IV Balanced - **0.7055489888594441**
-3. Dataset WoE Balanced - **0.73**
+3. Dataset WoE Balanced - **0.7331748923582305**
+4. Dataset WoE Balanced & IV Selected Features - **0.**
 
 
 
