@@ -20,7 +20,7 @@ obs -> Não temos outras informações sobre os detalhes de cada feature. Soment
 
 -----
 
-## Análise Descritiva 
+## Análise Descritiva
 
 ### Distribuição da target
 
@@ -66,8 +66,7 @@ Outro ponto importante notado pelo usuário **[Raddar](https://www.kaggle.com/co
 
 #### S_2 - Variável do tempo
 
-A distribuição do tempo não mostrou influência nos defaults. Provável que não tenha uma variável sazonal no fator "pagar a conta"
-
+A distribuição temporal mostra uma leve sasonalidade nos defaults, provávelmente é quando os cliente recebem a fatura ou quando a fatura vence.
 ![Time dist](reports/figures/time_distribution.png)
 
 
@@ -76,35 +75,35 @@ A distribuição do tempo não mostrou influência nos defaults. Provável que n
  * D_ = Delinquency variables
 ![D_correlation](reports/figures/D_correlation.png)
  
- *Foi observado alguns pares de Delinquency_variables altamente correlatas.* 
+ *Foi observado diversas variáveis com alto indice de correlação, D_77,D_62, D_131, D_130, D_79, D_49* 
 
 -----------
 
 * S_ = Spend Variables
 ![S_correlation](reports/figures/S_correlation.png)
 
-*Também observado pares de variáveis com alta correlação entre si.*
+*Também observado pares de variáveis com alta correlação entre si, S_7, S_9, S_13, S_15, S_22, S_24.*
 
 -----------
 
 * P_ = Payment Variables
 ![P_correlation](reports/figures/P_correlation.png)
 
-*Não foi observado nenhuma alta correlação*
+*Não foi observado nenhuma alta correlação, atenção a uma variável correlação inversa*
 
 -----------
 
 * B_ = Balance Variables
 ![B_correlation](reports/figures/B_correlation.png)
 
-*Diversas variáveis com alta correlação*
+*Diversas variáveis com alta correlação, B_11, B_1, B_37, B_3, B_18, B_23, B_7, B_20, B_19, B_18*
 
 -----------------
 
-*S_ = Risk Variables
+* R_ = Risk Variables
 ![R_correlation](reports/figures/R_correlation.png)
 
-*Também encontrados pares de variáveis com alta correlação*
+*Também encontrados pares de variáveis com alta correlação, R_8, R_5, R_4, R_6*
 
 ## WOE e IV
 
@@ -177,21 +176,31 @@ Com isso decidi fazer os seguintes experimentos:
 ### Modelo e parâmetros
 
 #### Baseline
-1. Como baseline, utilizei um XGBoost sem nenhum parâmetro e sem nenhuma modificação no DataSet
-    * Resultado geral conforme métricas estabelecidas - **0.7456**
+1. Vou usar como base a distribuição entre as classes, um dummy classifier que inferir que todos os clientes são 1 tem 75% de performance, partirei a partir disso- **0.75**
     
 #### Experimentação
-Como modelo principal irei utilizar o XGBoost. 
+Farei runs com LogisticRegression, RandomForestClassifier, XGBoost.
+A Escolha da regressão logística se da exclusivamente pela origem do WOE & IV. Esses calculos foram criados pensando como uso a regressão logística.
 Realizei alguns experimentos com outros, Logistic Regression, Random Forest:
 
-* Logistic regression -> Resultados muito inferiores ao baseline **0.527**
-* Random Forest -> Resultado **0.38**
+#### Resultados RegLog:
+1. Model all Features - **0.47**
+2. Dataset IV Balanced - **0.44**
+3. Dataset WoE Balanced - **0.56**
+4. Dataset WoE Balanced & IV Selected Features - **0.52**
+
+#### Resultados RandomForest:
+1. Model all Features - **0.56**
+2. Dataset IV Balanced - **0.43**
+3. Dataset WoE Balanced - **0.55**
+4. Dataset WoE Balanced & IV Selected Features - **0.54**
+
 
 #### Resultados XGBoost:
-1. Baseline - **0.7456**
-2. Dataset IV Balanced - **0.7055489888594441**
-3. Dataset WoE Balanced - **0.7331748923582305**
-4. Dataset WoE Balanced & IV Selected Features - **0.**
+1. Model all Features - **0.78**
+2. Dataset IV Balanced - **0.73**
+3. Dataset WoE Balanced - **0.785**
+4. Dataset WoE Balanced & IV Selected Features - **0.72**
 
 
 
