@@ -2,19 +2,19 @@
 =============================
 ## Introdução
 
-O objetivo desse projeto é aplicar conhecimentos de análise de crédito a fim de prever clientes defaults em uma base da American Express.
-A iniciativa de realizar esse projeto veio após leitura de um livro sobre Credit Risk management, e me interessei em colocar em prática alguns dos conceitos visto no livro
+O objetivo desse projeto é aplicar conhecimentos de análise de crédito a fim de prever clientes defaults em uma base de clientes fornecida pela American Express .
+A iniciativa de realizar esse projeto veio após leitura de um livro sobre Credit Risk management.
 
 Algumas características do dataset disponibilizado pela American Express:
 
-1. 5531451 entradas
+1. 5.531.451 entradas
 2. 191 features, que estão divididas em:
    * D_* = Delinquency variables
    * P_* = Payment variables
    * S_* = Spend variables
    * B_* = Balance variables
    * R_* = Risk variables
-3. Dataset desbalanceado *como esperado*: 25% clientes default
+3. Dataset desbalanceado: 25% clientes default
 
 obs -> Não temos outras informações sobre os detalhes de cada feature. Somente as breves descrições acima. E isso é importante, explicarei melhor a frente.
 
@@ -24,22 +24,21 @@ obs -> Não temos outras informações sobre os detalhes de cada feature. Soment
 
 ### Distribuição da target
 
-Como citado anteriormente, o dataset é desbalanceado, porém ainda temos em torno de 25% de default(não pagadores)
+Como citado anteriormente, o dataset é desbalanceado, temos em torno de 25% de default(não pagadores)
 
 ![Target_Distribution](reports/figures/target_distribution.png)
 
-
-### Valores nulos
-
-Temos 191 features -> Sendo que:
+Temos 191 features espalhadas nas categorias anteriormente citadas e 3 features distintas das demais, descritas abaixo:
 
 1 - Customer_Id
 2 - DateTime
 3 - Target
 
-Restando 188 features divididas nas categorias explicadas anteriormente.
+### Valores nulos
 
-Dessas, 67 features contém valores Nan variando como mostrado abaixo
+Das 188 features restantes temos como análise de elementos nulos:
+
+67 features contém valores Nan variando como mostrado abaixo
 
 ![Valores Vazios](reports/figures/nan_distribution.png)
 
@@ -47,35 +46,23 @@ Diversos valores com porcentagem maior que 50%:
 
 * 'D_88', 'D_110', 'B_39',  'D_73', 'B_42', 'D_134', 'B_29', 'D_132', 'D_76', 'D_42', 'D_142', 'D_53', 'D_50', 'B_17', 'D_105', 'D_56', 'S_9'
 
-
 #### Importante notar que, como não temos as explicações das variáveis, é imprudente assumir que a deleção das mesmas seja a melhor saída. Faremos uma análise de WOE & IV mais para frente para determinar o peso de todas
-
-Outro ponto importante notado pelo usuário **[Raddar](https://www.kaggle.com/competitions/amex-default-prediction/discussion/328514)** no Kaggle, foi inserção de ruídos nos dados **float**. Esse ruído que varia entre 0-0.01 foi removido desse dataset no inicio, o que ajuda a diminuir seu tamanho e otimizando as atividades computacionais.
-
-#### Traduzindo a informação da limpeza:
-* Originalmente tínhamos 188 float/categóricas features. Essas foram transformadas para:
-    * 95 np.int8/np.int16 types
-    * 93 np.float34 types
-
-    * Dados de treino originais -> **CSV = 16.39gb**
-    * Dados retirado ruído e downcast de variáveis -> **PARQUET = 1.7gb**
-
-
 
 ### Analise de variáveis
 
 #### S_2 - Variável do tempo
 
-A distribuição temporal mostra uma leve sasonalidade nos defaults, provávelmente é quando os cliente recebem a fatura ou quando a fatura vence.
+A distribuição temporal mostra uma leve sasonalidade nos defaults, sabemos que a cada 120 dias temos a classificação dos clientes que não pagaram suas faturas.
 ![Time dist](reports/figures/time_distribution.png)
 
+![Time var](reports/figures/time_variance.png)
 
 #### Olhando as variáveis por sua tipagem descrita no inicio
 
- * D_ = Delinquency variables
+* D_ = Delinquency variables
 ![D_correlation](reports/figures/D_correlation.png)
  
- *Foi observado diversas variáveis com alto indice de correlação, D_77,D_62, D_131, D_130, D_79, D_49* 
+ *Foi observado diversas variáveis com alto indice de correlação, D_77, D_62, D_131, D_130, D_79, D_49* 
 
 -----------
 
@@ -128,9 +115,9 @@ $$
 
 Onde não eventos = Bons & Eventos = Ruins
 
-A step by step calculation would be:
+Um passo a passo seria:
 
-    1. Split data into parts - How much depend on your distribution
+    1. Dividir os dados em partes(bins) - A quantidade depende da sua distribuição
     2. Calcular o número de eventos e não eventos para cara grupo(bin)
     3. Calcular a % de eventos e não eventos para cada grupo
     4. Calcular o WOE baseado na fórmula acima
@@ -176,7 +163,7 @@ Com isso decidi fazer os seguintes experimentos:
 ### Modelo e parâmetros
 
 #### Baseline
-1. Vou usar como base a distribuição entre as classes, um dummy classifier que inferir que todos os clientes são 1 tem 75% de performance, partirei a partir disso- **0.75**
+1. Vou usar como base a distribuição entre as classes - **0.75**
     
 #### Experimentação
 Farei runs com LogisticRegression, RandomForestClassifier, XGBoost.
@@ -184,26 +171,32 @@ A Escolha da regressão logística se da exclusivamente pela origem do WOE & IV.
 Realizei alguns experimentos com outros, Logistic Regression, Random Forest:
 
 #### Resultados RegLog:
+
 1. Model all Features - **0.47**
-2. Dataset IV Balanced - **0.44**
-3. Dataset WoE Balanced - **0.56**
+2. Dataset WoE Balanced - **0.56**
+3. Dataset IV Balanced - **0.44**
 4. Dataset WoE Balanced & IV Selected Features - **0.52**
 
 #### Resultados RandomForest:
+
 1. Model all Features - **0.56**
-2. Dataset IV Balanced - **0.43**
-3. Dataset WoE Balanced - **0.55**
+2. Dataset WoE Balanced - **0.55**
+3. Dataset IV Balanced - **0.43**
 4. Dataset WoE Balanced & IV Selected Features - **0.54**
 
 
 #### Resultados XGBoost:
+
 1. Model all Features - **0.78**
-2. Dataset IV Balanced - **0.73**
-3. Dataset WoE Balanced - **0.785**
+2. Dataset WoE Balanced - **0.785**
+3. Dataset IV Balanced - **0.73**
 4. Dataset WoE Balanced & IV Selected Features - **0.72**
 
 
+### Próximos passos:
 
+1. PCA - para redução/adição de features
+   
 
 
 Prediction of default for credit card issuer
